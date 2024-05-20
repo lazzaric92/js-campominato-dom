@@ -3,29 +3,16 @@ const playButtonEl = document.querySelector('header button#play');
 const difficultySelectorEl = document.querySelector('#difficulty-selector');
 const gridEl = document.querySelector('#grid');
 
-
+// || VARIABLES
+const bombsArray = [];
 
 
 playButtonEl.addEventListener('click', function(){
-    generateNewGame(gridEl, difficultySelectorEl.value);
-})
-
-
-// || FUNCTIONS
-
-// --> function to start a new game
-/**
- *  Funzione che genera una nuova partita
- * @param {*} containerEl  container che farà da griglia 
- * @param {*} difficultyValue  valore del selettore della difficoltà
- */
-function generateNewGame(containerEl, difficultyValue){
-    containerEl.innerHTML = '';
     let cellsNumber;
     let className;
 
-    // > switch per settare la difficoltà
-    switch(difficultyValue) {
+    // > switch to set the difficulty
+    switch(difficultySelectorEl.value) {
         case 'easy':
             cellsNumber = 100;
             className = 'easy';
@@ -42,16 +29,34 @@ function generateNewGame(containerEl, difficultyValue){
             cellsNumber = 100;
             className = 'easy';
     }
+
+    generateNewGame(gridEl, cellsNumber, className);
+    getArrayOfRandomNumbers(16, cellsNumber, bombsArray);
+})
+
+
+// || FUNCTIONS
+
+// --> function to start a new game
+/**
+ *  Function to generate a new game
+ * @param {*} containerEl  grid container
+ * @param {*} numberOfCells number of cells generated
+ * @param {*} difficultyClass  class to add according to the chosen difficulty
+ */
+function generateNewGame(containerEl, numberOfCells, difficultyClass){
+    containerEl.innerHTML = '';
     
-    // > ciclo for per creare le celle e il loro contenuto
-    for(let index = 0; index < cellsNumber; index++){
+    
+    // > for cycle to create cells and their content
+    for(let index = 0; index < numberOfCells; index++){
         const articleEl = document.createElement('article');
-        articleEl.classList.add('cell', 'flex-centered', className);
+        articleEl.classList.add('cell', 'flex-centered', difficultyClass);
         const spanEl = document.createElement('span');
         spanEl.append(index + 1);
         articleEl.appendChild(spanEl);
         
-        // > la cella deve essere cliccabile
+        // > the cell is clickable
         toClick(articleEl);
 
         containerEl.appendChild(articleEl);
@@ -77,9 +82,15 @@ function getRandomInt(min, max){
 }
 
 // --> function to generate bombs
+/**
+ * Get an array of random int numbers
+ * @param {*} numbersToGenerate how many elements the array must contain
+ * @param {*} intervalMaxValue max value of the interval in which generate the numbers
+ * @param {*} numbersArray the array in which the numbers are pushed
+ */
 function getArrayOfRandomNumbers(numbersToGenerate, intervalMaxValue, numbersArray){
     let index = 0;
-    while (index < numbersToGenerate){
+    while (index <= numbersToGenerate){
         const randomNumber = getRandomInt(0, intervalMaxValue);
         if (!numbersArray.includes(randomNumber)){
             numbersArray.push(randomNumber);
