@@ -49,7 +49,7 @@ Alle celle con indice pari ai numeri presenti in 'bombsArray' viene assegnata la
 L'utente clicca su una cella (alla quale al click è aggiunta classe .active):
     lo score aumenta di 1;
     (l'indice della cella cliccata viene pushato in 'activatedCells';
-    se l'indice della cella è presente in 'activatedCells' lo score rimane uguale a se stesso);
+    se l'indice della cella è presente in 'activeCells' lo score rimane uguale a se stesso);
 L'utente può continuare a cliccare finchè la cella cliccata non ha classe .bomb oppure il numero di celle non cliccate è uguale alla lunghezza di 'bombsArray'.
 Se una delle due condizioni sopraccitate si verifica, il gioco si interrompe. 
 

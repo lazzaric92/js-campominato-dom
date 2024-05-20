@@ -2,14 +2,17 @@
 const playButtonEl = document.querySelector('header button#play');
 const difficultySelectorEl = document.querySelector('#difficulty-selector');
 const gridEl = document.querySelector('#grid');
+const pScoreEl = document.querySelector('main > section > p#score');
 
 // || VARIABLES
 let bombsArray = [];
+let score = 0;
 
 
 playButtonEl.addEventListener('click', function(){
     bombsArray = [];
     generateNewGame(gridEl, difficultySelectorEl.value, bombsArray);
+    showScore(pScoreEl, score);
     console.log(bombsArray);
 })
 
@@ -28,6 +31,8 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
 
     let cellsNumber;
     let className;
+    let activeCells = [];
+    let score = 0;
 
     // > switch to set the difficulty
     switch(difficultyValue) {
@@ -64,17 +69,20 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
         }
         
         // > the cell is clickable
-        toClick(articleEl);
+        articleEl.addEventListener('click', function(){
+            articleEl.classList.add('active');
+            score++;
+            activeCells.push(articleEl);
+            // if (activeCells.includes(articleEl) || arrayOfRandomNumbers.includes(articleEl)){
+            //     score = score;
+            // }
+            showScore(pScoreEl, score);
+            checkForGameOver(cellsNumber, articleEl);
+            checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers);            
+        })
 
         containerEl.appendChild(articleEl);
     }
-}
-
-// --> function to make an element clickable
-function toClick(element){
-    element.addEventListener('click', function(){
-        element.classList.add('active');
-    })
 }
 
 // --> function to generate a random integer number
@@ -103,6 +111,35 @@ function getArrayOfRandomNumbers(numbersToGenerate, intervalMaxValue, numbersArr
             numbersArray.push(randomNumber);
     }
         index++;
+    }
+}
+
+// --> function to show score
+/**
+ * Function to show score on page
+ * @param {*} containerEl the element that show the score
+ * @param {*} scoreToShow
+ */
+function showScore(containerEl, scoreToShow){
+    containerEl.innerHTML = 'Score: ';
+    const scoreSpanEl = document.createElement('span');
+    scoreSpanEl.innerHTML = scoreToShow;
+    containerEl.append(scoreSpanEl);
+}
+
+function checkForGameOver(numberOfCells, element){
+    for (let i = 0; i < numberOfCells; i++){
+        if (element.classList.contains('bomb') && element.classList.contains('active')){
+            console.log('Game over!');
+            return;
+        }
+    }
+}
+
+function checkForWin(numberOfCells, clickedElements, blackList){
+    if (numberOfCells - clickedElements.length === blackList.length){
+        console.log('You won!');
+        return;
     }
 }
 
