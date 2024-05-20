@@ -85,6 +85,7 @@ main {
     height: 500px;
     flex-wrap: wrap;
     align-content: center;
+    margin-bottom: 2rem;
 }
 
 #grid article.cell {
@@ -110,6 +111,11 @@ main {
 #grid article.cell.active {
     background-color: var(--blue);
     color: white;
+}
+
+#grid article.cell.bomb.active {
+    background-color: #ff3e6c;
+    color: black;
 }
 
 /* || FOOTER */

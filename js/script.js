@@ -52,11 +52,39 @@ function generateNewGame(containerEl, difficultyValue){
         articleEl.appendChild(spanEl);
         
         // > la cella deve essere cliccabile
-        articleEl.addEventListener('click', function(){
-            articleEl.classList.add('active');
-        })
+        toClick(articleEl);
 
         containerEl.appendChild(articleEl);
+    }
+}
+
+// --> function to make an element clickable
+function toClick(element){
+    element.addEventListener('click', function(){
+        element.classList.add('active');
+    })
+}
+
+// --> function to generate a random integer number
+/**
+ * Function to generate a random integer number in a set interval
+ * @param {*} min interval min value, included
+ * @param {*} max interval max value, included
+ * @returns a random int number
+ */
+function getRandomInt(min, max){
+    return Math.floor((Math.random() * (max - min) + 1) + min);
+}
+
+// --> function to generate bombs
+function getArrayOfRandomNumbers(numbersToGenerate, intervalMaxValue, numbersArray){
+    let index = 0;
+    while (index < numbersToGenerate){
+        const randomNumber = getRandomInt(0, intervalMaxValue);
+        if (!numbersArray.includes(randomNumber)){
+            numbersArray.push(randomNumber);
+    }
+        index++;
     }
 }
 

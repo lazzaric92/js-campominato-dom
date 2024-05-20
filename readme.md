@@ -43,7 +43,7 @@ Al termine della partita il software deve comunicare il punteggio, cioè il nume
 Creo l'array delle bombe ('bombsArray').
 Creo l'array delle celle attive ('activatedCells').
 
-Richiamo la funzione 'genarateBombs' con argomenti il numero di bombe (16), il numero di celle (dato dalla difficoltà) e 'bombsArray'.
+Richiamo la funzione 'getArrayOfRandomNumbers' con argomenti il numero di bombe (16), il numero di celle (dato dalla difficoltà) e 'bombsArray'.
 Alle celle con indice pari ai numeri presenti in 'bombsArray' viene assegnata la classe 'bomb' (che colora la cella di rosso).
 
 L'utente clicca su una cella (alla quale al click è aggiunta classe .active):
@@ -53,7 +53,7 @@ L'utente clicca su una cella (alla quale al click è aggiunta classe .active):
 L'utente può continuare a cliccare finchè la cella cliccata non ha classe .bomb oppure il numero di celle non cliccate è uguale alla lunghezza di 'bombsArray'.
 Se una delle due condizioni sopraccitate si verifica, il gioco si interrompe. 
 
-Creo una funzione 'generateBombs', con parametri la quantità di numeri da generare, il numero max  per la funzione 'getrandomInt' e un array, che 
+Creo una funzione 'getArrayOfRandomNumbers', con parametri la quantità di numeri da generare, il numero max  per la funzione 'getrandomInt' e un array, che 
     richiami la funzione 'getRandomInt' con argomenti 0 e il sopraccitato max, 
     pushi il numero randomico nell'array se questo non è già presente,
     finché i numeri presenti nell'array non sono tanti quanti i numeri da generare (il numero di bombe desiderato).
