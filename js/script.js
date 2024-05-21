@@ -31,6 +31,8 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
 
     let cellsNumber;
     let className;
+    const triggerClassName = 'bomb';
+    const clickedClassName = 'active';
     let activeCells = [];
     let score = 0;
 
@@ -65,12 +67,12 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
 
         // > adding .bomb class to cells
         if (arrayOfRandomNumbers.includes(index)){
-            articleEl.classList.add('bomb');
+            articleEl.classList.add(triggerClassName);
         }
         
         // > the cell is clickable
         articleEl.addEventListener('click', function(){
-            articleEl.classList.add('active');
+            articleEl.classList.add(clickedClassName);
             score++;
             activeCells.push(articleEl);
             // if (activeCells.includes(articleEl) || arrayOfRandomNumbers.includes(articleEl)){
@@ -104,8 +106,8 @@ function getRandomInt(min, max){
  * @param {*} numbersArray the array in which the numbers are pushed
  */
 function getArrayOfRandomNumbers(numbersToGenerate, intervalMaxValue, numbersArray){
-    let index = 0;
-    while (index < numbersToGenerate){
+    let index = 1;
+    while (numbersArray.length < numbersToGenerate){
         const randomNumber = getRandomInt(0, intervalMaxValue);
         if (!numbersArray.includes(randomNumber)){
             numbersArray.push(randomNumber);
@@ -129,7 +131,7 @@ function showScore(containerEl, scoreToShow){
 
 function checkForGameOver(numberOfCells, element){
     for (let i = 0; i < numberOfCells; i++){
-        if (element.classList.contains('bomb') && element.classList.contains('active')){
+        if (element.classList.contains(triggerClassName) && element.classList.contains(clickedClassName)){
             console.log('Game over!');
             return;
         }
