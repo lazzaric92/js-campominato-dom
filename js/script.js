@@ -7,6 +7,8 @@ const pScoreEl = document.querySelector('main > section > p#score');
 // || VARIABLES
 let bombsArray = [];
 let score = 0;
+const triggerClassName = 'bomb';
+const clickedClassName = 'active';
 
 
 playButtonEl.addEventListener('click', function(){
@@ -31,8 +33,6 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
 
     let cellsNumber;
     let className;
-    const triggerClassName = 'bomb';
-    const clickedClassName = 'active';
     let activeCells = [];
     let score = 0;
 
@@ -80,7 +80,7 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
             // }
             showScore(pScoreEl, score);
             checkForGameOver(cellsNumber, articleEl);
-            checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers);            
+            checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers);
         })
 
         containerEl.appendChild(articleEl);
