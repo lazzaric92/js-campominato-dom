@@ -1,8 +1,12 @@
 // || SELECTORS
-const playButtonEl = document.querySelector('header button#play');
+const playButtonEl = document.querySelector('button#play');
 const difficultySelectorEl = document.querySelector('#difficulty-selector');
 const gridEl = document.querySelector('#grid');
 const pScoreEl = document.querySelector('main > section > p#score');
+const alertDivEl = document.querySelector('div.alert');
+const restartButtonEl = document.querySelector('button#restart');
+const pAlertEl = document.querySelector('div.alert > div> p');
+const gameOverScoreEl = document.querySelector('p#gameover-score');
 
 // || VARIABLES
 let bombsArray = [];
@@ -33,8 +37,8 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
 
     let cellsNumber;
     let className;
-    let activeCells = [];
     let score = 0;
+    let activeCells = [];
 
     // > switch to set the difficulty
     switch(difficultyValue) {
@@ -71,17 +75,29 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
         }
         
         // > the cell is clickable
-        articleEl.addEventListener('click', function(){
-            articleEl.classList.add(clickedClassName);
-            score++;
-            activeCells.push(articleEl);
-            // if (activeCells.includes(articleEl) || arrayOfRandomNumbers.includes(articleEl)){
-            //     score = score;
-            // }
-            showScore(pScoreEl, score);
-            checkForGameOver(cellsNumber, articleEl);
-            checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers);
-        })
+            articleEl.addEventListener('click', function(){
+                if(!articleEl.classList.contains(clickedClassName) && !articleEl.classList.contains(triggerClassName)) {
+                    articleEl.classList.add(clickedClassName);
+                    score++;
+                    activeCells.push(index);
+                } else if (!articleEl.classList.contains(clickedClassName) && articleEl.classList.contains(triggerClassName)){
+                    articleEl.classList.add(clickedClassName);
+                    score = score;
+                    alertDivEl.classList.remove('hidden');
+                    pAlertEl.innerHTML = 'Game Over!';
+                    gameOverScoreEl.innerHTML = 'Score: ' + score;
+                    restartButtonEl.addEventListener('click', function(){
+                        containerEl.innerHTML = '';
+                        alertDivEl.classList.add('hidden');
+                        pScoreEl.innerHTML = 'Select difficulty and start a new game!'
+                    })
+                } else {
+                    score = score;
+                }
+    
+                showScore(pScoreEl, score);
+                checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers);
+            })
 
         containerEl.appendChild(articleEl);
     }
@@ -114,6 +130,7 @@ function getArrayOfRandomNumbers(numbersToGenerate, intervalMaxValue, numbersArr
     }
         index++;
     }
+    return;
 }
 
 // --> function to show score
@@ -127,15 +144,7 @@ function showScore(containerEl, scoreToShow){
     const scoreSpanEl = document.createElement('span');
     scoreSpanEl.innerHTML = scoreToShow;
     containerEl.append(scoreSpanEl);
-}
-
-function checkForGameOver(numberOfCells, element){
-    for (let i = 0; i < numberOfCells; i++){
-        if (element.classList.contains(triggerClassName) && element.classList.contains(clickedClassName)){
-            console.log('Game over!');
-            return;
-        }
-    }
+    return;
 }
 
 function checkForWin(numberOfCells, clickedElements, blackList){

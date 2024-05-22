@@ -48,7 +48,8 @@ header h1 {
 }
 
 header #difficulty-selector,
-header #play {
+#play,
+#restart {
     color: var(--dark-blue);
     border-radius: 8px;
     cursor: pointer;
@@ -62,13 +63,15 @@ header #difficulty-selector {
     padding: .4rem .5rem;
 }
 
-header #play {
+#play,
+#restart {
     padding: .4rem 1.5rem;
     background-color: var(--baby-blue);
     font-size: .9rem;
 }
 
-header #play:hover {
+#play:hover,
+#restart:hover {
     background-color: var(--blue);
     color: white;
 }
@@ -78,6 +81,7 @@ main {
     background-color: var(--baby-blue);
     height: calc(100% - 120px);
     flex-direction: column;
+    position: relative;
 }
 
 #grid {
@@ -117,6 +121,42 @@ main {
     background-color: #ff3e6c;
     color: black;
 }
+
+div.alert {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(91, 133, 221, .5);
+    height: 100%;
+}
+
+div.alert > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 300px;
+    height: 180px;
+    background-color: white;
+    color: var(--blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 8px;
+}
+
+div.alert.hidden {
+    display: none;
+}
+
+div.alert p:first-child {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
 
 /* || FOOTER */
 footer {
