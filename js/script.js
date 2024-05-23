@@ -5,10 +5,11 @@ const gridEl = document.querySelector('#grid');
 const pScoreEl = document.querySelector('main > section > p#score');
 const alertDivEl = document.querySelector('div.alert');
 const restartButtonEl = document.querySelector('button#restart');
-const pAlertEl = document.querySelector('div.alert > div> p');
+const alertMessageEl = document.querySelector('p#gameover-message');
 const gameOverScoreEl = document.querySelector('p#gameover-score');
 
 // || VARIABLES
+const bombsNumber = 16;
 let bombsArray = [];
 let score = 0;
 const triggerClassName = 'bomb';
@@ -59,7 +60,7 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
             className = 'easy';
     }
 
-    getArrayOfRandomNumbers(16, cellsNumber, arrayOfRandomNumbers);
+    getArrayOfRandomNumbers(bombsNumber, cellsNumber, arrayOfRandomNumbers);
     
     // > for cycle to create cells and their content
     for(let index = 0; index < cellsNumber; index++){
@@ -75,30 +76,23 @@ function generateNewGame(containerEl, difficultyValue, arrayOfRandomNumbers){
         }
         
         // > the cell is clickable
-            articleEl.addEventListener('click', function(){
-                if(!articleEl.classList.contains(clickedClassName) && !articleEl.classList.contains(triggerClassName)) {
-                    articleEl.classList.add(clickedClassName);
-                    score++;
-                    activeCells.push(index);
-                } else if (!articleEl.classList.contains(clickedClassName) && articleEl.classList.contains(triggerClassName)){
-                    articleEl.classList.add(clickedClassName);
-                    score = score;
-                    alertDivEl.classList.remove('hidden');
-                    pAlertEl.innerHTML = 'Game Over!';
-                    gameOverScoreEl.innerHTML = 'Score: ' + score;
-                    restartButtonEl.addEventListener('click', function(){
-                        containerEl.innerHTML = '';
-                        alertDivEl.classList.add('hidden');
-                        pScoreEl.innerHTML = 'Select difficulty and start a new game!'
-                    })
-                } else {
-                    score = score;
-                }
-    
-                showScore(pScoreEl, score);
-                checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers);
-            })
+        articleEl.addEventListener('click', function(){
+            if(!articleEl.classList.contains(clickedClassName) && !articleEl.classList.contains(triggerClassName)) {
+                articleEl.classList.add(clickedClassName);
+                score++;
+                activeCells.push(index);
+            } else if (!articleEl.classList.contains(clickedClassName) && articleEl.classList.contains(triggerClassName)){
+                articleEl.classList.add(clickedClassName);
+                score = score;
+                showAlert('Game Over!', score, containerEl);
+            } else {
+                score = score;
+            }
 
+            showScore(pScoreEl, score);
+            checkForWin(cellsNumber, activeCells, arrayOfRandomNumbers, score, containerEl);
+        })
+        
         containerEl.appendChild(articleEl);
     }
 }
@@ -122,7 +116,7 @@ function getRandomInt(min, max){
  * @param {*} numbersArray the array in which the numbers are pushed
  */
 function getArrayOfRandomNumbers(numbersToGenerate, intervalMaxValue, numbersArray){
-    let index = 1;
+    let index = 0;
     while (numbersArray.length < numbersToGenerate){
         const randomNumber = getRandomInt(0, intervalMaxValue);
         if (!numbersArray.includes(randomNumber)){
@@ -147,11 +141,22 @@ function showScore(containerEl, scoreToShow){
     return;
 }
 
-function checkForWin(numberOfCells, clickedElements, blackList){
+function checkForWin(numberOfCells, clickedElements, blackList, score, containerEl){
     if (numberOfCells - clickedElements.length === blackList.length){
-        console.log('You won!');
-        return;
+        console.log('Victory!');
+        return showAlert('Victory!', score, containerEl);
     }
+}
+
+function showAlert(alertMessage, score, containerEl){
+    alertDivEl.classList.remove('hidden');
+    alertMessageEl.innerHTML = alertMessage;
+    gameOverScoreEl.innerHTML = 'Score: ' + score;
+    restartButtonEl.addEventListener('click', function(){
+        containerEl.innerHTML = '';
+        alertDivEl.classList.add('hidden');
+        pScoreEl.innerHTML = 'Select difficulty and start a new game!'
+    })
 }
 
 

@@ -12,6 +12,7 @@ body {
     --dark-blue: #001533;
     --baby-blue: #89CFF0;
     --blue: #5b85dd;
+    --red: #ff3e6c;
 }
 
 /* || UTILS */
@@ -150,11 +151,12 @@ div.alert.hidden {
     display: none;
 }
 
-div.alert p:first-child {
+p#gameover-message {
     font-size: 1.5rem;
     text-transform: uppercase;
     font-weight: bold;
     margin-top: 1rem;
+    color: var(--blue);
 }
 
 
